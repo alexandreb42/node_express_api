@@ -2,8 +2,8 @@ const { Sequelize } = require("sequelize");
 
 const databaseConfig = {
   name: "promoapi",
-  user: "tester",
-  password: "test"
+  user: "alex42",
+  password: "alex42"
 };
 
 const db = new Sequelize(

@@ -1,8 +1,9 @@
-const Promo = require("../models/promo");
 const uuid = require("uuid/v4");
 //select id, titre, iteration from promos
 
+const Promo = require("../models/promo");
 const Apprenant = require("../models/apprenant");
+const db = require("../db");
 
 
 module.exports = {
@@ -21,12 +22,18 @@ module.exports = {
     getAllPromo: async () => {
         return await Promo.findAll({
             attributes: ['id', 'titre', 'iteration'],
-            order: [['createdAt', 'ASC']]
+            // order: [['createdAt', 'ASC']],
+            include: [
+                {
+                    model: db.models.apprenants
+                }
+            ]
         });
     },
     getPromo: async id => {
         return await Promo.findByPk(id, {
-            attributes: ['id', 'titre', 'iteration']
+            attributes: ['id', 'titre', 'iteration'],
+            include: [ Apprenant ]
         });
     },
     deletePromo: async id => {
@@ -53,8 +60,11 @@ module.exports = {
                 prenom,
                 promoId
             },
-            { attributes: ['id', 'nom', 'prenom', 'promoId'] }
+            {
+                attributes: ['id', 'nom', 'prenom', 'promoId']
+            }
         );
+        
         return nouvelApprenant;
     }
 };
